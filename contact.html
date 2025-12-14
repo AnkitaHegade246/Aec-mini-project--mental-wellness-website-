@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Talk to Us</h1>
+
+    <form id="contactForm">
+        <input type="text" id="name" name="name" placeholder="Your name" required
+               style="padding:10px; width:90%; margin-bottom:10px; border-radius:5px;">
+        <br>
+        <textarea id="message" name="message" placeholder="Your message"
+                  required style="padding:10px; width:90%; height:120px; border-radius:5px;"></textarea>
+        <br>
+        <button type="submit">Send</button>
+    </form>
+
+    <p id="response"></p>
+</div>
+
+<script>
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new URLSearchParams();
+        formData.append("name", document.getElementById("name").value);
+        formData.append("message", document.getElementById("message").value);
+
+        const res = await fetch("http://localhost:8080/contact", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (res.ok) {
+            document.getElementById("response").innerText = "Message sent!";
+            document.getElementById("contactForm").reset();
+        } else {
+            document.getElementById("response").innerText = "Error sending message.";
+        }
+    });
+</script>
+
+</body>
+</html>

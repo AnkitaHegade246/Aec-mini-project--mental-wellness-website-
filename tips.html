@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Wellness Tips</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Daily Wellness Tips</h1>
+    <p><em>Loading tips...</em></p>
+    <div id="tips"></div>
+</div>
+
+<script>
+    fetch("http://localhost:8080/tips")
+        .then(res => res.json())
+        .then(data => {
+            const tipsDiv = document.getElementById("tips");
+            tipsDiv.innerHTML = ""; // clear loading text
+
+            data.tips.forEach(tip => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.textContent = tip;
+                tipsDiv.appendChild(card);
+            });
+        })
+        .catch(() => {
+            document.getElementById("tips").innerHTML = "<p>Error loading tips.</p>";
+        });
+</script>
+
+</body>
+</html>
